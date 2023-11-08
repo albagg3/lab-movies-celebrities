@@ -9,12 +9,20 @@ router.get("/create", (req, res) => {
     res.render("celebrities/new-celebrity");
 });
 
-router.post("/create", (req, res) => {
+router.post("/create", async (req, res) => {
     // res.send("new-celebrity")
-    // const {celebrityName, celebrityOccupation, catchphrase} = req.body
-    // console.log(celebrityName); 
-    // Celebrity.create({name: celebrityName, occupation: celebrityOccupation,catchPhrase:catchphrase})
-    res.render("celebrities/new-celebrity");
+    try{
+        const {celebrityName, celebrityOccupation, catchphrase} = req.body
+        // console.log(celebrityName); 
+        const response = await Celebrity.create({name: celebrityName, occupation: celebrityOccupation, catchPhrase:catchphrase})
+        // res.render("celebrities/new-celebrity");
+        res.render("celebrities/celebrities.hbs")
+        console.log("RESPONSE",response);
+    }
+    catch(error){
+        console.error("This is an error",error);
+        res.render("celebrities/new-celebrity.hbs")
+    }
 });
 
 
